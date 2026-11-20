@@ -1,0 +1,1144 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LE PLUS BON - Gestione ordini</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #101312;
+  --panel: #191e1c;
+  --panel2: #202622;
+  --border: #303a34;
+  --green: #a5d6a7;
+  --green2: #6fbd83;
+  --text: #f2f5f2;
+  --muted: #929c94;
+  --orange: #ffb45c;
+  --red: #f28c8c;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+}
+
+/* HEADER */
+
+header {
+  background: #171d19;
+  border-bottom: 1px solid var(--border);
+  padding: 23px 20px;
+}
+
+.header-content {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo {
+  font-size: 23px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.logo span {
+  color: var(--green);
+}
+
+.subtitle {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+.connection {
+  font-size: 12px;
+  color: var(--green);
+  background: #203329;
+  padding: 9px 13px;
+  border-radius: 20px;
+}
+
+/* MAIN */
+
+main {
+  max-width: 1100px;
+  margin: auto;
+  padding: 28px 18px;
+}
+
+.welcome {
+  margin-bottom: 25px;
+}
+
+.welcome h2 {
+  font-size: 25px;
+  margin: 0 0 7px;
+}
+
+.welcome p {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0;
+}
+
+/* STATISTICHE */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 13px;
+  margin-bottom: 28px;
+}
+
+.stat {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 19px;
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.stat-number {
+  font-size: 29px;
+  font-weight: bold;
+  margin-top: 9px;
+}
+
+.stat-number.orange {
+  color: var(--orange);
+}
+
+.stat-number.green {
+  color: var(--green);
+}
+
+.stat-number.white {
+  color: white;
+}
+
+/* ORDINI */
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 17px;
+  gap: 10px;
+}
+
+.section-title h3 {
+  margin: 0;
+  font-size: 19px;
+}
+
+.search {
+  width: 100%;
+  max-width: 260px;
+  padding: 11px 13px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: white;
+  border-radius: 9px;
+  outline: none;
+  font-size: 13px;
+}
+
+.search:focus {
+  border-color: var(--green2);
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.filter {
+  background: var(--panel2);
+  color: #c6cec8;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+.filter.active {
+  background: var(--green);
+  color: #142016;
+  border-color: var(--green);
+  font-weight: bold;
+}
+
+.filter small {
+  margin-left: 5px;
+}
+
+/* CARD ORDINE */
+
+.order {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 19px;
+  margin-bottom: 15px;
+  transition: border-color .2s;
+}
+
+.order:hover {
+  border-color: #586c5d;
+}
+
+.order.completed {
+  border-left: 4px solid var(--green2);
+}
+
+.order-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border);
+}
+
+.table-label {
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.table-number {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.table-number span {
+  color: var(--green);
+}
+
+.status {
+  font-size: 11px;
+  padding: 7px 12px;
+  border-radius: 20px;
+  background: #49351f;
+  color: var(--orange);
+  font-weight: bold;
+}
+
+.status.done {
+  background: #203e2b;
+  color: #a5d6a7;
+}
+
+.order-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 17px;
+  margin-top: 15px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.info-item strong {
+  color: #e5eae5;
+  font-weight: normal;
+}
+
+/* PRODOTTI */
+
+.products-title {
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 22px 0 10px;
+}
+
+.product {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #2a322d;
+  font-size: 14px;
+}
+
+.product:last-child {
+  border-bottom: 0;
+}
+
+.product-name {
+  font-weight: 500;
+}
+
+.product-right {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+}
+
+.quantity {
+  color: var(--green);
+  background: #25372a;
+  border-radius: 6px;
+  padding: 5px 9px;
+  font-size: 12px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.product-price {
+  color: #d5ddd6;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* NOTE */
+
+.notes {
+  background: #292f2b;
+  border: 1px solid #3b463e;
+  padding: 13px;
+  border-radius: 9px;
+  margin-top: 13px;
+  font-size: 13px;
+  color: #dce5dc;
+  line-height: 1.5;
+}
+
+.notes strong {
+  color: var(--green);
+}
+
+/* TOTALE */
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  margin-top: 15px;
+}
+
+.total-label {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.total-price {
+  font-size: 21px;
+  font-weight: bold;
+  color: var(--green);
+}
+
+/* AZIONI */
+
+.actions {
+  display: flex;
+  gap: 9px;
+  margin-top: 18px;
+}
+
+.complete-btn,
+.delete-btn {
+  border: 0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  transition: .2s;
+}
+
+.complete-btn {
+  background: var(--green);
+  color: #142016;
+  flex: 1;
+}
+
+.complete-btn:hover {
+  background: #c0e8c2;
+}
+
+.complete-btn:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+.complete-btn.is-done {
+  background: #263b2d;
+  color: var(--green);
+  border: 1px solid #45634b;
+}
+
+.delete-btn {
+  background: #392628;
+  color: #f5a3a3;
+  border: 1px solid #604044;
+}
+
+.delete-btn:hover {
+  background: #503034;
+}
+
+/* STATI */
+
+.empty,
+.loading,
+.error {
+  text-align: center;
+  padding: 45px 15px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.error {
+  color: var(--red);
+}
+
+/* FOOTER */
+
+footer {
+  max-width: 1100px;
+  margin: 30px auto 0;
+  padding: 20px;
+  border-top: 1px solid var(--border);
+  color: #737e75;
+  font-size: 11px;
+  text-align: center;
+}
+
+/* MOBILE */
+
+@media(max-width: 600px) {
+  main {
+    padding: 23px 13px;
+  }
+
+  .header-content {
+    align-items: flex-start;
+  }
+
+  .logo {
+    font-size: 19px;
+  }
+
+  .connection {
+    font-size: 10px;
+    padding: 8px;
+  }
+
+  .welcome h2 {
+    font-size: 22px;
+  }
+
+  .stats {
+    gap: 8px;
+  }
+
+  .stat {
+    padding: 13px 10px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+  }
+
+  .stat-number {
+    font-size: 24px;
+  }
+
+  .section-title {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .search {
+    max-width: none;
+  }
+
+  .order {
+    padding: 15px;
+  }
+
+  .order-info {
+    gap: 10px;
+  }
+
+  .product-right {
+    gap: 8px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .complete-btn,
+  .delete-btn {
+    width: 100%;
+    padding: 13px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-content">
+    <div>
+      <div class="logo">LE PLUS <span>BON</span></div>
+      <div class="subtitle">Sistema di gestione ordini · Pizzeria</div>
+    </div>
+
+    <div class="connection" id="connection">
+      ● Connessione...
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <div class="welcome">
+    <h2>Gestione ordini</h2>
+    <p>Controlla e gestisci gli ordini ricevuti dai tavoli in tempo reale.</p>
+  </div>
+
+  <div class="stats">
+
+    <div class="stat">
+      <div class="stat-label">Ordini totali</div>
+      <div class="stat-number white" id="totalCount">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">In attesa</div>
+      <div class="stat-number orange" id="pendingCount">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Completati</div>
+      <div class="stat-number green" id="completedCount">0</div>
+    </div>
+
+  </div>
+
+  <div class="section-title">
+    <h3>Ordini ricevuti</h3>
+
+    <input
+      type="search"
+      class="search"
+      id="search"
+      placeholder="Cerca tavolo o cliente..."
+    >
+  </div>
+
+  <div class="filters">
+
+    <button class="filter active" data-filter="tutti">
+      Tutti <small id="allFilterCount">0</small>
+    </button>
+
+    <button class="filter" data-filter="nuovo">
+      In attesa <small id="newFilterCount">0</small>
+    </button>
+
+    <button class="filter" data-filter="completato">
+      Completati <small id="doneFilterCount">0</small>
+    </button>
+
+  </div>
+
+  <div id="orders" class="loading">
+    Caricamento degli ordini...
+  </div>
+
+</main>
+
+<footer>
+  LE PLUS BON · Pannello di gestione digitale
+</footer>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  query,
+  orderBy,
+  onSnapshot,
+  deleteDoc,
+  updateDoc,
+  doc
+}
+from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+
+/* FIREBASE - STESSO DATABASE DEL SITO CLIENTI */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCKbb2IAZJpYorJCy66Dr95DWGwoUkVGDM",
+  authDomain: "ordinazioni-plus-de-bon.firebaseapp.com",
+  projectId: "ordinazioni-plus-de-bon",
+  storageBucket: "ordinazioni-plus-de-bon.firebasestorage.app",
+  messagingSenderId: "1074646917867",
+  appId: "1:1074646917867:web:65dfa316d7aebf7675d4ae",
+  measurementId: "G-4BPGP9DHCD"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+
+/* ELEMENTI */
+
+const ordersContainer = document.getElementById("orders");
+const connection = document.getElementById("connection");
+
+let allOrders = [];
+let currentFilter = "tutti";
+let searchText = "";
+
+
+/* CONTATORI */
+
+function updateStats() {
+
+  const pending = allOrders.filter(
+    o => o.stato !== "completato"
+  ).length;
+
+  const completed = allOrders.filter(
+    o => o.stato === "completato"
+  ).length;
+
+  document.getElementById("totalCount").textContent =
+    allOrders.length;
+
+  document.getElementById("pendingCount").textContent =
+    pending;
+
+  document.getElementById("completedCount").textContent =
+    completed;
+
+  document.getElementById("allFilterCount").textContent =
+    allOrders.length;
+
+  document.getElementById("newFilterCount").textContent =
+    pending;
+
+  document.getElementById("doneFilterCount").textContent =
+    completed;
+}
+
+
+/* FUNZIONE TESTO SICURO */
+
+function addText(parent, tag, className, value) {
+
+  const element = document.createElement(tag);
+
+  if (className) {
+    element.className = className;
+  }
+
+  element.textContent = value ?? "";
+
+  parent.appendChild(element);
+
+  return element;
+}
+
+
+/* FORMATTAZIONE DATA */
+
+function formatDate(timestamp) {
+
+  if (!timestamp || typeof timestamp.toDate !== "function") {
+    return "Orario non disponibile";
+  }
+
+  return timestamp.toDate().toLocaleString("it-IT", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
+
+/* COMPLETAMENTO ORDINE */
+
+async function completeOrder(order, button) {
+
+  if (order.stato === "completato") return;
+
+  button.disabled = true;
+  button.textContent = "Aggiornamento...";
+
+  try {
+
+    await updateDoc(
+      doc(db, "ordini", order.id),
+      {
+        stato: "completato",
+        completatoAt: new Date()
+      }
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "Non è stato possibile completare l'ordine. Riprova."
+    );
+
+    button.disabled = false;
+    button.textContent = "✓ Segna come completato";
+  }
+}
+
+
+/* ELIMINAZIONE ORDINE */
+
+async function deleteOrder(order, button) {
+
+  const confirmed = confirm(
+    "Vuoi eliminare definitivamente l'ordine del tavolo " +
+    order.tavolo + "?"
+  );
+
+  if (!confirmed) return;
+
+  button.disabled = true;
+  button.textContent = "Eliminazione...";
+
+  try {
+
+    await deleteDoc(
+      doc(db, "ordini", order.id)
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert("Errore durante l'eliminazione dell'ordine.");
+
+    button.disabled = false;
+    button.textContent = "Elimina ordine";
+  }
+}
+
+
+/* CREAZIONE CARD */
+
+function createOrderCard(order) {
+
+  const completed = order.stato === "completato";
+
+  const card = document.createElement("section");
+
+  card.className = completed
+    ? "order completed"
+    : "order";
+
+
+  /* INTESTAZIONE */
+
+  const head = document.createElement("div");
+  head.className = "order-head";
+
+  const tableBlock = document.createElement("div");
+
+  addText(
+    tableBlock,
+    "div",
+    "table-label",
+    "Ordine ricevuto"
+  );
+
+  const table = addText(
+    tableBlock,
+    "div",
+    "table-number",
+    ""
+  );
+
+  table.append("Tavolo ");
+
+  const number = document.createElement("span");
+  number.textContent = order.tavolo ?? "—";
+
+  table.appendChild(number);
+
+  head.appendChild(tableBlock);
+
+  const status = addText(
+    head,
+    "span",
+    completed ? "status done" : "status",
+    completed ? "✓ Completato" : "● In attesa"
+  );
+
+  card.appendChild(head);
+
+
+  /* INFORMAZIONI */
+
+  const info = document.createElement("div");
+  info.className = "order-info";
+
+  const dateItem = document.createElement("div");
+  dateItem.className = "info-item";
+
+  dateItem.textContent = "Orario: ";
+
+  const dateValue = document.createElement("strong");
+  dateValue.textContent = formatDate(order.createdAt);
+
+  dateItem.appendChild(dateValue);
+
+  const clientItem = document.createElement("div");
+  clientItem.className = "info-item";
+
+  clientItem.textContent = "Cliente: ";
+
+  const clientValue = document.createElement("strong");
+  clientValue.textContent =
+    order.cliente || "Non specificato";
+
+  clientItem.appendChild(clientValue);
+
+  info.append(dateItem, clientItem);
+
+  card.appendChild(info);
+
+
+  /* PRODOTTI */
+
+  addText(
+    card,
+    "div",
+    "products-title",
+    "Dettaglio prodotti"
+  );
+
+  const products = document.createElement("div");
+
+  (Array.isArray(order.prodotti) ? order.prodotti : [])
+    .forEach(item => {
+
+      const line = document.createElement("div");
+      line.className = "product";
+
+      const name = addText(
+        line,
+        "span",
+        "product-name",
+        item.nome || "Prodotto"
+      );
+
+      const right = document.createElement("div");
+      right.className = "product-right";
+
+      addText(
+        right,
+        "span",
+        "quantity",
+        "x" + (item.quantita ?? 1)
+      );
+
+      if (item.prezzo !== undefined) {
+
+        const price = addText(
+          right,
+          "span",
+          "product-price",
+          (
+            Number(item.prezzo) *
+            Number(item.quantita ?? 1)
+          ).toFixed(2) + " €"
+        );
+
+      }
+
+      line.appendChild(right);
+
+      products.appendChild(line);
+
+    });
+
+  card.appendChild(products);
+
+
+  /* NOTE */
+
+  if (order.note && String(order.note).trim()) {
+
+    const notes = document.createElement("div");
+    notes.className = "notes";
+
+    const label = document.createElement("strong");
+    label.textContent = "Note cliente: ";
+
+    notes.appendChild(label);
+
+    notes.append(
+      document.createTextNode(String(order.note))
+    );
+
+    card.appendChild(notes);
+  }
+
+
+  /* TOTALE */
+
+  const total = document.createElement("div");
+  total.className = "total";
+
+  addText(
+    total,
+    "span",
+    "total-label",
+    "TOTALE ORDINE"
+  );
+
+  addText(
+    total,
+    "span",
+    "total-price",
+    Number(order.totale || 0).toFixed(2) + " €"
+  );
+
+  card.appendChild(total);
+
+
+  /* PULSANTI */
+
+  const actions = document.createElement("div");
+  actions.className = "actions";
+
+  const completeButton = document.createElement("button");
+
+  completeButton.className = completed
+    ? "complete-btn is-done"
+    : "complete-btn";
+
+  completeButton.textContent = completed
+    ? "✓ Ordine completato"
+    : "✓ Segna come completato";
+
+  completeButton.disabled = completed;
+
+  completeButton.addEventListener("click", () => {
+    completeOrder(order, completeButton);
+  });
+
+  actions.appendChild(completeButton);
+
+
+  const deleteButton = document.createElement("button");
+
+  deleteButton.className = "delete-btn";
+  deleteButton.textContent = "Elimina ordine";
+
+  deleteButton.addEventListener("click", () => {
+    deleteOrder(order, deleteButton);
+  });
+
+  actions.appendChild(deleteButton);
+
+  card.appendChild(actions);
+
+  return card;
+}
+
+
+/* VISUALIZZAZIONE ORDINI */
+
+function showOrders() {
+
+  ordersContainer.replaceChildren();
+
+  updateStats();
+
+  let filtered = allOrders.filter(order => {
+
+    if (currentFilter === "nuovo" &&
+        order.stato === "completato") {
+      return false;
+    }
+
+    if (currentFilter === "completato" &&
+        order.stato !== "completato") {
+      return false;
+    }
+
+    if (searchText) {
+
+      const table = String(order.tavolo ?? "").toLowerCase();
+      const client = String(order.cliente ?? "").toLowerCase();
+
+      if (
+        !table.includes(searchText) &&
+        !client.includes(searchText)
+      ) {
+        return false;
+      }
+    }
+
+    return true;
+  });
+
+
+  if (filtered.length === 0) {
+
+    const message = searchText
+      ? "Nessun ordine corrisponde alla ricerca."
+      : "Non ci sono ordini da mostrare.";
+
+    addText(
+      ordersContainer,
+      "div",
+      "empty",
+      message
+    );
+
+    return;
+  }
+
+
+  filtered.forEach(order => {
+
+    ordersContainer.appendChild(
+      createOrderCard(order)
+    );
+
+  });
+
+}
+
+
+/* FILTRI */
+
+document.querySelectorAll(".filter").forEach(button => {
+
+  button.addEventListener("click", () => {
+
+    document.querySelectorAll(".filter").forEach(b => {
+      b.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    currentFilter = button.dataset.filter;
+
+    showOrders();
+
+  });
+
+});
+
+
+/* RICERCA */
+
+document.getElementById("search").addEventListener(
+  "input",
+  event => {
+
+    searchText = event.target.value
+      .trim()
+      .toLowerCase();
+
+    showOrders();
+
+  }
+);
+
+
+/* COLLEGAMENTO IN TEMPO REALE */
+
+const ordersQuery = query(
+  collection(db, "ordini"),
+  orderBy("createdAt", "desc")
+);
+
+
+onSnapshot(
+  ordersQuery,
+
+  snapshot => {
+
+    allOrders = snapshot.docs.map(document => ({
+      id: document.id,
+      ...document.data()
+    }));
+
+    connection.textContent =
+      "● Collegato · Tempo reale";
+
+    showOrders();
+
+  },
+
+  error => {
+
+    console.error(error);
+
+    connection.textContent =
+      "● Connessione non disponibile";
+
+    connection.style.color = "#ff9999";
+
+    ordersContainer.replaceChildren();
+
+    addText(
+      ordersContainer,
+      "div",
+      "error",
+      "Impossibile caricare gli ordini. Controlla la connessione e le regole Firebase."
+    );
+
+  }
+);
+
+</script>
+
+</body>
+</html>
